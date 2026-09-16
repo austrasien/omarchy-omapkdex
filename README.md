@@ -5,6 +5,7 @@
   A creature in your Omarchy bar that hatches and evolves as you burn AI coding
   tokens — with a Pokédex, a profile for every individual, Rare Candy for
   filling rate limits, and a shop that spends the tokens you already used.
+  This fork also grows on <b>Cursor</b> (IDE and <code>cursor-agent</code>).
 </p>
 
 <p align="center">
@@ -29,28 +30,44 @@
 </p>
 
 > [!IMPORTANT]
-> **OmaPkDex collects no usage of its own.** It reads the records that the
-> first-party **`omarchy.agents`** plugin writes to
+> **OmaPkDex collects no usage of its own.** It reads the records that
+> **`omarchy.agents`** (and compatible collectors) write to
 > `~/.local/state/omarchy/agents/usage/*.json`.
 >
-> That plugin must be **enabled and have recorded usage** — so you need at least
-> one AI coding CLI (Claude Code, Codex, Fireworks) that has actually run. Until
-> a record exists, OmaPkDex shows an egg and never hatches. That is not a
-> failure: there is simply nothing to grow on yet.
+> This fork also watches **`cursor.json`** — Cursor IDE and `cursor-agent`
+> CLI usage on the same Cursor account. Stock Omarchy does not write that
+> file; install
+> [omarchy-cursor-usage](https://github.com/austrasien/omarchy-cursor-usage)
+> (or any collector that uses the same record contract). Claude Code, Codex
+> and Fireworks are still counted when their first-party records exist.
 >
-> `omarchy.agents` ships with Omarchy and self-hides when there is no usage, so
-> if you see its robot icon in your bar, you are ready.
+> Until a record exists, OmaPkDex shows an egg and never hatches. That is
+> not a failure: there is simply nothing to grow on yet.
+>
+> `omarchy.agents` ships with Omarchy and self-hides when there is no usage,
+> so if you see its robot icon in your bar, you are ready.
 
 ## Install
 
 ```bash
-omarchy plugin add https://github.com/HeitorM50/omapkdex.git --enable
+omarchy plugin add https://github.com/austrasien/omarchy-omapkdex.git --enable
 ```
 
 `--enable` asks where to place it in the bar. To move it later:
 
 ```bash
 omarchy plugin enable io.github.heitorm50.omapkdex --section right
+```
+
+### Switching from upstream
+
+Same plugin id, so your companion, Pokédex and history stay put:
+
+```bash
+cd ~/.config/omarchy/plugins/io.github.heitorm50.omapkdex
+git remote set-url origin https://github.com/austrasien/omarchy-omapkdex.git
+git pull
+omarchy restart shell
 ```
 
 ## Update
@@ -547,3 +564,7 @@ page are loaded from PokéAPI's own repository.
 ## License
 
 MIT, see [LICENSE](LICENSE).
+
+Based on [HeitorM50/omapkdex](https://github.com/HeitorM50/omapkdex).
+This fork keeps the upstream copyright and license; Cursor record support
+and packaging by [austrasien](https://github.com/austrasien).

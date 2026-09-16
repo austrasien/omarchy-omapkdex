@@ -414,7 +414,9 @@ DIFFICULTY_MIN, DIFFICULTY_MAX, DIFFICULTY_DEFAULT = 0.1, 2.0, 1.0
 TOKEN_KEYS = ("inputTokens", "outputTokens",
               "cacheCreationInputTokens", "cacheReadInputTokens")
 
-AGENT_IDS = ("claude", "codex", "fireworks")
+# First-party collectors plus any extra record that uses the same contract
+# (Cursor is written by io.github.mrlarsendk.cursor-usage).
+AGENT_IDS = ("claude", "codex", "fireworks", "cursor")
 
 
 def clamp_difficulty(value) -> float:

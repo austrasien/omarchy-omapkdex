@@ -44,9 +44,11 @@ BarWidget {
     return base + "/omarchy/" + moduleName
   }
 
-  // Os ids dos coletores que o omarchy.agents distribui. Um record ausente
-  // simplesmente não carrega — o widget não exige nenhum agente específico.
-  readonly property var agentIds: ["claude", "codex", "fireworks"]
+  // Records in ~/.local/state/omarchy/agents/usage/. A missing file simply
+  // does not load — the widget does not require any specific agent.
+  // `cursor` is written by io.github.mrlarsendk.cursor-usage, not by the
+  // first-party collectors, but it uses the same schemaVersion: 1 contract.
+  readonly property var agentIds: ["claude", "codex", "fireworks", "cursor"]
 
   // ---- Settings
   readonly property real difficulty: Balance.clampDifficulty(setting("difficulty", 0.3))

@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "id": "io.github.heitorm50.omapkdex",
   "name": "OmaPkDex",
-  "version": "0.1.0",
-  "author": "HeitorM50",
+  "version": "0.2.0",
+  "author": "HeitorM50, fork by austrasien",
   "license": "MIT",
-  "description": "A creature in your bar that hatches and evolves as you burn AI coding tokens, reading the usage records omarchy.agents already collects",
+  "description": "A creature in your bar that hatches and evolves as you burn AI coding tokens, including Cursor IDE and cursor-agent (austrasien fork)",
   "kinds": [
     "bar-widget"
   ],
@@ -14,13 +14,14 @@
   },
   "barWidget": {
     "displayName": "OmaPkDex",
-    "description": "Animated sprite that evolves with your AI token usage, with a Pokédex, a per-individual profile (level, nature, ability, IVs, stats, moves), a catch log, Rare Candy from filled rate limits, and a token shop.",
+    "description": "Animated sprite that evolves with your AI token usage, including Cursor IDE and cursor-agent, with a Pokédex, a per-individual profile (level, nature, ability, IVs, stats, moves), a catch log, Rare Candy from filled rate limits, and a token shop.",
     "category": "AI",
     "aliases": [
       "omapkdex",
       "poketokenbar",
       "companion",
-      "pokemon"
+      "pokemon",
+      "cursor"
     ],
     "allowMultiple": false,
     "defaultSection": "right",
