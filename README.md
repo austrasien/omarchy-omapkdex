@@ -8,6 +8,9 @@
   This fork also grows on <b>Cursor</b> (IDE and <code>cursor-agent</code>).
 </p>
 
+> **Built for Omarchy:** a bar companion that reads usage you already collect.
+> Install it, click the sprite, and keep coding. Cursor tokens count too.
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/1.gif" width="76" alt="Bulbasaur">
   <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/25.gif" width="76" alt="Pikachu">
@@ -29,6 +32,22 @@
   <img src="docs/screenshots/companion.png" width="420" alt="The Companion tab: Braviary at stage 2/2, with its progress bar and evolution line">
 </p>
 
+---
+
+### ☕ Support the Project
+If a creature in the bar makes burning tokens a little less grim, a tip is
+always appreciated.
+
+[![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg?style=for-the-badge&logo=paypal)](https://paypal.me/austraz)
+
+---
+
+### 💬 Feedback & Community
+Found a bug, or Cursor usage that doesn't land? Open an
+[**issue**](https://github.com/austrasien/omarchy-omapkdex/issues).
+
+---
+
 > [!IMPORTANT]
 > **OmaPkDex collects no usage of its own.** It reads the records that
 > **`omarchy.agents`** (and compatible collectors) write to
@@ -47,7 +66,17 @@
 > `omarchy.agents` ships with Omarchy and self-hides when there is no usage,
 > so if you see its robot icon in your bar, you are ready.
 
-## Install
+## 🛠 Installation
+
+Requirements:
+
+- Omarchy 4.x with `omarchy.agents` enabled
+- Recorded usage from Claude Code, Codex, Fireworks, and/or **Cursor**
+  ([omarchy-cursor-usage](https://github.com/austrasien/omarchy-cursor-usage)
+  for `cursor.json`)
+- Python 3 (standard library only)
+
+Install:
 
 ```bash
 omarchy plugin add https://github.com/austrasien/omarchy-omapkdex.git --enable
@@ -87,6 +116,20 @@ written by an older version is read as-is, and fields added since (the recorded
 difficulty, an individual's nature) are treated as absent rather than
 back-filled with a guess.
 
+## 🗑 Removal
+
+```bash
+omarchy plugin remove io.github.heitorm50.omapkdex
+```
+
+Your progress and the sprite cache stay on purpose, so a reinstall picks up
+where you left off. To erase them too:
+
+```bash
+rm -rf ~/.local/state/omarchy/io.github.heitorm50.omapkdex
+rm -rf ~/.cache/omarchy/io.github.heitorm50.omapkdex
+```
+
 <details>
 <summary><b>If you installed it before it was called OmaPkDex</b></summary>
 
@@ -108,7 +151,7 @@ If it is not `...omapkdex`, then — with `<old>` being the folder you just saw:
 mv ~/.local/state/omarchy/<old> ~/.local/state/omarchy/io.github.heitorm50.omapkdex
 mv ~/.cache/omarchy/<old>       ~/.cache/omarchy/io.github.heitorm50.omapkdex
 omarchy plugin remove <old> --yes
-omarchy plugin add https://github.com/HeitorM50/omapkdex.git --enable
+omarchy plugin add https://github.com/austrasien/omarchy-omapkdex.git --enable
 omarchy restart shell
 ```
 
@@ -118,32 +161,9 @@ you on an egg.
 
 </details>
 
-<details>
-<summary><b>Dependencies, and how to remove it</b></summary>
-
-- **Python 3** — standard library only, nothing to install.
-- **Network** — on the first hatch of each species, to fetch its evolution chain
-  and sprites from PokéAPI. Cached afterwards; later hatches of a known species
-  need no network.
-- **`omarchy.agents`** enabled, with recorded usage. See the note above.
-
-```bash
-omarchy plugin remove io.github.heitorm50.omapkdex
-```
-
-Your progress and the sprite cache are left behind on purpose, so a reinstall
-picks up where you left off. To erase them too:
-
-```bash
-rm -rf ~/.local/state/omarchy/io.github.heitorm50.omapkdex
-rm -rf ~/.cache/omarchy/io.github.heitorm50.omapkdex
-```
-
-OmaPkDex writes nowhere else. The only change it makes to your Omarchy config is
-its own widget entry in `shell.json`, which `omarchy plugin remove` takes out
-along with the folder.
-
-</details>
+Network: the first hatch of each species fetches its evolution chain and
+sprites from PokéAPI, then caches them. Later hatches of a known species
+need no network.
 
 ## The six tabs
 
@@ -561,7 +581,7 @@ Unofficial, non-commercial fan project. See
 bundled in this repository; sprites are fetched at runtime and the ones in this
 page are loaded from PokéAPI's own repository.
 
-## License
+## ⚖️ License & Credits
 
 MIT, see [LICENSE](LICENSE).
 
