@@ -309,9 +309,11 @@ reads session files touched in the last 30 days, and the Fireworks one asks its
 billing API for 30 days. Summing `modelUsage` on every read would give a total
 that *shrinks* when sessions age out — and a creature that de-evolves.
 
-So OmaPkDex keeps the last total seen per agent and accumulates only positive
-deltas. A record that shrinks, zeroes, or is rewritten contributes nothing,
-never negative.
+So OmaPkDex keeps a **high-water** `lastSeen` per agent and accumulates only
+positive deltas. A record that shrinks, zeroes, or is rewritten contributes
+nothing, never negative — and growing back to a previous peak does not count
+again. Cursor's dashboard totals bounce; without the high-water mark the same
+tokens graduated several creatures in one afternoon.
 
 Counting starts at zero by default: on the first run your existing lifetime
 total only sets the ruler, so the first creature does not graduate instantly.
@@ -531,9 +533,9 @@ tests/test_shop.mjs        # shop list, bag, mood, bar tooltip
   Pokémon behind their back.
 - **The first run pays no retroactive candy**: enabling the feature with a
   weekly cap already at 100% would hand out 5 free candies.
-- **A record that shrinks** (`test_absorb.py`): the lifetime total must not fall
-  and the stage must not regress when sessions age out of the Codex collector's
-  30-day window.
+- **A record that shrinks** (`test_absorb.py`): the lifetime total must not fall,
+  `lastSeen` stays at the peak, and restoring the old total does not re-count.
+  Only tokens beyond that peak count.
 - **Two hatches in the same second** do not leave two open history entries. That
   test is what revealed `hatchedAt` — one-second resolution — was unusable as an
   entry identity.

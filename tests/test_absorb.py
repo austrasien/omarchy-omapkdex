@@ -2,7 +2,8 @@
 """Testa cmd_absorb contra os records reais, num XDG_STATE_HOME temporário."""
 import importlib.machinery, importlib.util, json, os, shutil, tempfile
 
-PLUGIN = os.path.expanduser('~/.config/omarchy/plugins/io.github.heitorm50.omapkdex/bin/omapkdex-sync')
+PLUGIN = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                      'bin', 'omapkdex-sync')
 REAL = os.path.expanduser('~/.local/state/omarchy/agents/usage')
 MODULE = 'io.github.heitorm50.omapkdex'
 
@@ -86,28 +87,32 @@ with Sandbox() as sb:
     eq("excedente = 2M - 1.5M", s['tokensIntoStage'], 500_000)
     eq("estágio 0", s['stage'], 0)
 
-print("\n--- 3. RECORD QUE ENCOLHE: lifetime não cai, estágio não regride ---")
+print("\n--- 3. RECORD QUE ENCOLHE: lifetime não cai, lastSeen não desce, sem recontagem ---")
 with Sandbox() as sb:
     ps = load_helper(); sb.put_companion('common', ['a','b','c'])
     ps.cmd_absorb(['0.3'])
     sb.put_record('claude', bump(sb.record('claude'), 100_000_000))
     ps.cmd_absorb(['0.3'])
     before = sb.read_state()
-    # a janela de 30 dias do Codex descarta sessões: modelUsage encolhe
-    shrunk = sb.record('codex')
+    peak = before['lastSeen']['claude']
+    full = sb.record('claude')
+    shrunk = json.loads(json.dumps(full))
     for m in shrunk['modelUsage']:
         for k in shrunk['modelUsage'][m]:
             shrunk['modelUsage'][m][k] //= 3
-    sb.put_record('codex', shrunk)
+    sb.put_record('claude', shrunk)
     ps.cmd_absorb(['0.3'])
     after = sb.read_state()
     eq("lifetime inalterado", after['lifetimeTokens'], before['lifetimeTokens'])
     eq("estágio inalterado", after['stage'], before['stage'])
     eq("hatched inalterado", after['hatched'], before['hatched'])
-    # e voltar ao tamanho real não deve recontar o histórico do codex
-    sb.put_record('codex', sb.record('codex'))
+    eq("lastSeen fica no pico", after['lastSeen']['claude'], peak)
+    sb.put_record('claude', full)
     ps.cmd_absorb(['0.3'])
-    eq("sem recontagem", sb.read_state()['lifetimeTokens'], before['lifetimeTokens'])
+    eq("voltar ao pico não reconta", sb.read_state()['lifetimeTokens'], before['lifetimeTokens'])
+    sb.put_record('claude', bump(full, 2_000_000))
+    ps.cmd_absorb(['0.3'])
+    eq("só o novo além do pico conta", sb.read_state()['lifetimeTokens'], before['lifetimeTokens'] + 2_000_000)
 
 print("\n--- 4. record que zera (CLI desinstalada) ---")
 with Sandbox() as sb:

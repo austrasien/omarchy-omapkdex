@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.1 — 2026-09-17
+
+### Fixed
+
+- `lastSeen` is a high-water mark. A usage record that shrinks (Codex's
+  30-day window, Cursor dashboard totals that bounce) no longer lowers the
+  ruler, so the next peak cannot graduate a creature with the same tokens
+  again.
+
+Existing lifetime totals and Pokédex entries are left as they are. Only
+future absorbs change.
+
 ## 0.2.0 — 2026-09-16
 
 First public release of this austrasien fork of

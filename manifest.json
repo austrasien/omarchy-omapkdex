@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "io.github.heitorm50.omapkdex",
   "name": "OmaPkDex",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "HeitorM50, fork by austrasien",
   "license": "MIT",
   "description": "A creature in your bar that hatches and evolves as you burn AI coding tokens, including Cursor IDE and cursor-agent (austrasien fork)",

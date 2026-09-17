@@ -601,13 +601,13 @@ def cmd_absorb(argv: list[str]) -> int:
                 if seed:
                     gained += current
                 continue
-            # Só delta positivo. Um record que encolheu (a janela de 30 dias do
-            # coletor do Codex, uma CLI desinstalada, um record reescrito)
-            # contribui zero, nunca negativo.
+            # Só delta positivo. lastSeen é um high-water mark: um record que
+            # encolhe (janela de 30 dias do Codex, totais Cursor que sobem e
+            # descem) não baixa a régua. Senão o próximo pico reconta o mesmo
+            # monte e diploma criaturas de graça.
             delta = current - previous
             if delta > 0:
                 gained += delta
-            if delta != 0:
                 seen[agent_id] = current
 
         hatch_requested = False
